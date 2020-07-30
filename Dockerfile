@@ -37,13 +37,11 @@ RUN apk add --no-cache --virtual .build-deps \
         opcache && \
         pecl channel-update pecl.php.net; \
     printf "\n" | pecl install -o -f \
-        redis; \
-    docker-php-ext-enable \
-        redis;\
-        pecl install -o -f \
-        swoole; \
- 	docker-php-ext-enable \
+        redis \
         swoole;\
+    docker-php-ext-enable \
+        redis\
+        swoole; \   
     docker-php-source delete; \
     runDeps="$( \
       scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
