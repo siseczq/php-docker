@@ -1,6 +1,6 @@
 FROM php:7.2-fpm-alpine
 
-LABEL maintainer Lerry
+LABEL maintainer Lerry1
 
 RUN apk add --no-cache --virtual .build-deps \
       $PHPIZE_DEPS \
@@ -8,6 +8,7 @@ RUN apk add --no-cache --virtual .build-deps \
       icu-dev \
       curl-dev \
       freetype-dev \
+      git\
       imagemagick-dev \
       pcre-dev \
       postgresql-dev \
@@ -38,10 +39,12 @@ RUN apk add --no-cache --virtual .build-deps \
         pecl channel-update pecl.php.net; \
     printf "\n" | pecl install -o -f \
         redis \
+        xhprof \
         swoole;\
     docker-php-ext-enable \
         redis\
-        swoole; \   
+        xhprof \
+        swoole; \
     docker-php-source delete; \
     runDeps="$( \
       scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
@@ -60,4 +63,3 @@ CMD ["php-fpm"]
 EXPOSE 9000
 
 
- 
